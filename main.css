@@ -30,6 +30,14 @@ h1 {
     font-size: 13px;
 }
 
+/* .hour-slot:first-child {
+    border-radius: 10px 10px 0 0;
+}
+
+.hour-slot:nth-last-child(2) {
+    border-radius: 0 0 10px 10px;
+} */
+
 .hour-slot::before {
     content: "";
     position: absolute;

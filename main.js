@@ -241,6 +241,7 @@ function generateHourSlots () {
     for (var i = pastHours * -1; i < maxHours; i++) {
         const hourSlot = document.createElement("div");
         hourSlot.className = "hour-slot";
+        hourSlot.style.zIndex = Math.abs(100 - i);
         
         if (i < 0) {
             hourSlot.classList.add("hour-past");
