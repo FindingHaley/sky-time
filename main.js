@@ -143,8 +143,8 @@ function getPacificOffest (localTime, pacificTime) {
     // let resetOffset = 0;
     let hour;
 
-    console.log(localTime.hour24, pacificTime.hour24, offset)
-    console.log("resetOffset", resetOffset)
+    // console.log(localTime.hour24, pacificTime.hour24, offset)
+    // console.log("resetOffset", resetOffset)
 
     if (resetOffset === 0) {
         resetOffset = localTime.hour24;
@@ -163,8 +163,8 @@ function getPacificOffest (localTime, pacificTime) {
             hour = hour * -1;
         }
 
-        console.log(hour)
-        console.log("previous day");
+        // console.log(hour)
+        // console.log("previous day");
     } else {
         hour = resetOffset;
     }
@@ -187,15 +187,15 @@ function onLoad() {
     var pacificDate = localDate.toLocaleString("en-US", {
         timeZone: "America/Los_Angeles"
     });
-    console.log("pacDate", pacificDate);
+    // console.log("pacDate", pacificDate);
 
     let pacificTime = parsePacificTime(pacificDate);
 
     offset = getPacificOffest(localTime, pacificTime);
 
-    console.log(localTime, diff);
-    console.log("pac", pacificTime);
-    console.log("offset", offset);
+    // console.log(localTime, diff);
+    // console.log("pac", pacificTime);
+    // console.log("offset", offset);
 
     const resetTime = document.getElementById("reset-time");
     resetTime.innerText = `${offset.resetOffset}:00 ${offset.period}`;
@@ -253,7 +253,7 @@ function generateHourSlots () {
 
         let time = to12Hours(localTime.hour24 + i);
 
-        console.log(time.hour, time.period);
+        // console.log(time.hour, time.period);
 
         hourSlot.appendChild(hourLabel);
 
@@ -283,10 +283,10 @@ function generateHourSlots () {
             // console.log(timeData[event].minutesAfterReset / 60, Math.floor(timeData[event].minutesAfterReset / 60));
 
             for (var i2 = 0; i2 < 12; i2++) {
-                console.log(nearestHour + ((timeData[event].frequency / 60) * i2), localTime.hour24 + i);
+                // console.log(nearestHour + ((timeData[event].frequency / 60) * i2), localTime.hour24 + i);
                 if (nearestHour + ((timeData[event].frequency / 60) * i2) === localTime.hour24 + i - 1) {
-                    console.log(i2, nearestHour, (timeData[event].frequency / 60));
-                    console.log('match');
+                    // console.log(i2, nearestHour, (timeData[event].frequency / 60));
+                    // console.log('match');
 
                     const eventBlock = document.createElement("div");
                     eventBlock.className = "event";
