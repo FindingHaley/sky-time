@@ -62,7 +62,7 @@ h1 {
 + .hour-slot 
 + .hour-slot 
 + .hour-slot {
-    opacity: 0.5;
+    opacity: 0.6;
 }
 
 .hour-slot 
@@ -72,7 +72,7 @@ h1 {
 + .hour-slot
 + .hour-slot
 .event {
-    opacity: 0.5;
+    opacity: 0.6;
 }
 
 .hour-past {
