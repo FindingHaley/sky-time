@@ -19,12 +19,13 @@ h1 {
     display: block;
     position: relative;
     margin-top: 20px;
-    background-color: #111;
+    /* background-color: #111; */
 }
 
 .hour-slot {
     position: relative;
     border: 1px solid #333;
+    background-color: #111;
     min-height: 100px;
     font-size: 13px;
 }
@@ -38,8 +39,47 @@ h1 {
     border: 0.5px dashed #333;
 }
 
-.hour-past {
+.hour-slot 
++ .hour-slot 
++ .hour-slot 
++ .hour-slot 
++ .hour-slot {
+    opacity: 0.75;
+}
+
+.hour-slot 
++ .hour-slot 
++ .hour-slot 
++ .hour-slot 
++ .hour-slot
+.event {
+    opacity: 0.75;
+}
+
+.hour-slot 
++ .hour-slot 
++ .hour-slot 
++ .hour-slot 
++ .hour-slot 
++ .hour-slot {
     opacity: 0.5;
+}
+
+.hour-slot 
++ .hour-slot 
++ .hour-slot 
++ .hour-slot 
++ .hour-slot
++ .hour-slot
+.event {
+    opacity: 0.5;
+}
+
+.hour-past {
+    opacity: 0.75;
+}
+.hour-past .event {
+    opacity: 0.75;
 }
 
 #current-time {
@@ -51,6 +91,7 @@ h1 {
     border-radius: 1px;
     transition: 0.3s;
     box-shadow: 0px 2px 3px 0px rgba(0,0,0,0.25);
+    z-index: 10;
 }
 
 #current-time::before {
@@ -76,6 +117,7 @@ h1 {
     min-height: 5px;
     font-size: 16px;
     /* min-width: 90px; */
+    z-index: 1;
 }
 
 @media only screen and (max-width: 450px) {
