@@ -16,5 +16,11 @@
         "duration": 10,
         "frequency": 120,
         "color": "347856"
+    },
+    "Shard": {
+        "minutesAfterReset": 90,
+        "duration": 50,
+        "frequency": 120,
+        "color": "853d2e"
     }
 }
