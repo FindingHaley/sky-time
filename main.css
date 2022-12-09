@@ -122,11 +122,15 @@ h1 {
     box-shadow: inset 0px 0px 0px 1px rgba(255,255,255,0.1);
     border-radius: 3px;
     padding: 0 5px;
-    width: calc(20% - 10px);
+    width: calc(20% - 15px);
     min-height: 5px;
     font-size: 16px;
     /* min-width: 90px; */
     z-index: 5;
+}
+
+.event:last-of-type {
+    margin-left: 5px;
 }
 
 .event + .event {
