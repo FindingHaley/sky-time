@@ -18,7 +18,7 @@
         "color": "347856"
     },
     "Aurora": {
-        "minutesAfterReset": -60,
+        "minutesAfterReset": 0,
         "duration": 60,
         "frequency": 240,
         "color": "6e0d3a"

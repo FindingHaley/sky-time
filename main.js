@@ -279,13 +279,13 @@ function generateHourSlots () {
         for (var event in timeData) {
             eventCount++;
             // console.log(event);
-            let nearestHour = timeData[event].minutesAfterReset ? Math.floor(timeData[event].minutesAfterReset / 60) : 0;
+            let nearestHour = (timeData[event].minutesAfterReset ? Math.floor(timeData[event].minutesAfterReset / 60) : 0) + offset.resetOffset;
             let frequencyHours = timeData[event].frequency / 60;
             // console.log(timeData[event].minutesAfterReset / 60, Math.floor(timeData[event].minutesAfterReset / 60));
 
             for (var i2 = 0; i2 < 12; i2++) {
                 // console.log(nearestHour + ((timeData[event].frequency / 60) * i2), localTime.hour24 + i);
-                if (nearestHour + ((timeData[event].frequency / 60) * i2) === localTime.hour24 + i - 1) {
+                if (nearestHour + ((timeData[event].frequency / 60) * i2) === localTime.hour24 + i) {
                     // console.log(i2, nearestHour, (timeData[event].frequency / 60));
                     // console.log('match');
 

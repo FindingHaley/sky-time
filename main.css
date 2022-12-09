@@ -115,6 +115,7 @@ h1 {
 
 .event {
     position: absolute;
+    top: 0;
     left: 20%;
     color: #fff;
     background-color: rgb(33, 109, 128);
@@ -125,7 +126,21 @@ h1 {
     min-height: 5px;
     font-size: 16px;
     /* min-width: 90px; */
-    z-index: 1;
+    z-index: 5;
+}
+
+.event + .event {
+    z-index: 4;
+}
+
+
+.event + .event + .event {
+    z-index: 3;
+}
+
+
+.event + .event + .event + .event {
+    z-index: 2;
 }
 
 @media only screen and (max-width: 450px) {
