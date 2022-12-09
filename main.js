@@ -259,7 +259,7 @@ function generateHourSlots () {
         hourSlot.appendChild(hourLabel);
 
         function getVerticalOffset (event) {
-            let topPercent = (event.minutesAfterReset / 60) * 100;
+            let topPercent = (event.minutesAfterReset ? (event.minutesAfterReset / 60) : 0) * 100;
 
             if (topPercent > 100) {
                 topPercent -= 100;
@@ -279,7 +279,7 @@ function generateHourSlots () {
         for (var event in timeData) {
             eventCount++;
             // console.log(event);
-            let nearestHour = Math.floor(timeData[event].minutesAfterReset / 60);
+            let nearestHour = timeData[event].minutesAfterReset ? Math.floor(timeData[event].minutesAfterReset / 60) : 0;
             let frequencyHours = timeData[event].frequency / 60;
             // console.log(timeData[event].minutesAfterReset / 60, Math.floor(timeData[event].minutesAfterReset / 60));
 
