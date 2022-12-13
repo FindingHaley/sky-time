@@ -1,8 +1,10 @@
 let timeData;
 let offset;
 let localTime;
-const maxHours = 5;
-const pastHours = 1;
+let showFullDay = true;
+let maxHours = 5;
+let pastHours = 1;
+let currentHourSlot;
 
 function loadData (filename) {
     var xhr = new XMLHttpRequest();
@@ -89,42 +91,15 @@ function parseTime (time) {
 }
 
 
-// function parseUTCTime (time) {
-//     let hour24 = time.getUTCHours();
-//     let hour;
-//     let minutes = time.getUTCMinutes();
-//     let period = getPeriod(hour);
-
-//     if (hour24 > 12) {
-//         hour = hour24 - 12;
-//     } else {
-//         hour = hour24;
-//     }
-
-//     return {
-//         hour: hour,
-//         hour24: hour24,
-//         minutes: minutes,
-//         period: period
-//     };
-// }
-
 function parsePacificTime (date) {
     date = date.split(" ");
     let time = date[1].split(":");;
     let hour = Number(time[0]);
-    // let hour = 12;
     let minutes = Number(time[1]);
     let period = date[2];
-    // let period = "AM";
     let hour24;
     
     hour24 = to24Hours(hour, period);
-    // if (period === "PM" && hour24 !== 12) {
-    //     hour24 = hour + 12
-    // } else {
-    //     hour24 = hour;
-    // }
 
     return {
         hour: hour,
@@ -136,7 +111,6 @@ function parsePacificTime (date) {
 
 function getPacificOffest (localTime, pacificTime) {
     const offset = localTime.hour24 - pacificTime.hour24;
-    // const offset = 0 - 1;
 
     // const resetOffset = localTime.hour24 - offset;
     let resetOffset = offset;
@@ -181,7 +155,6 @@ function getPacificOffest (localTime, pacificTime) {
 function onLoad() {
     const localDate = new Date();
     localTime = parseTime(localDate);
-    // let UTCTime = parseUTCTime(localDate);
     let diff = localDate.getTimezoneOffset();
 
     var pacificDate = localDate.toLocaleString("en-US", {
@@ -205,7 +178,7 @@ function onLoad() {
 
 function getLabelText (i) {
     let time = to12Hours(localTime.hour24 + i);
-    return `${time.hour}:00 ${time.period}`;
+    return `${(time.hour ? time.hour : '12')}:00 ${time.period}`;
     
 }
 
@@ -217,8 +190,12 @@ function updateCurrentTime () {
     let oneHourPercent = (1 / totalHours) * 100;
     let percentOfHour = currentDate.getMinutes() / 60;
     // let percentOfHour = 1 / 60;
-    let hourPos = (oneHourPercent * 1) + (oneHourPercent * percentOfHour);
+    let hourPos = oneHourPercent + (oneHourPercent * percentOfHour);
 
+    if (showFullDay) {
+        hourPos = (oneHourPercent * (localTime.hour24 - offset.resetOffset)) + (oneHourPercent * percentOfHour);
+    }
+    
     currentTime.style.top = hourPos + "%";
 
     setTimeout(function () {
@@ -231,6 +208,13 @@ function generateHourSlots () {
 
     const currentTime = document.createElement("div");
     currentTime.id = "current-time";
+    
+    if (showFullDay) {
+        pastHours = localTime.hour24 - offset.resetOffset;
+        maxHours = 24 - localTime.hour24 + offset.resetOffset;
+    } else {
+        timeline.className = "partial-day"
+    }
 
     // let oneHourPercent = (1 / maxHours) * 100;
     // let percentOfHour = localTime.minutes / 60;
@@ -241,6 +225,7 @@ function generateHourSlots () {
     for (var i = pastHours * -1; i < maxHours; i++) {
         const hourSlot = document.createElement("div");
         hourSlot.className = "hour-slot";
+        hourSlot.id = `hour${localTime.hour24 + i}`;
         hourSlot.style.zIndex = Math.abs(100 - i);
         
         if (i < 0) {
@@ -297,6 +282,7 @@ function generateHourSlots () {
                     eventBlock.style.height = `${getEventDuration(timeData[event])}%`;
                     eventBlock.innerText = event;
                     hourSlot.appendChild(eventBlock);
+                    
                 }
             }
         }
@@ -309,6 +295,10 @@ function generateHourSlots () {
 
         // console.log(i);
     }
+    
+    document.getElementById(`hour${localTime.hour24}`).scrollIntoView({
+        block: 'center'
+    });
 
     setTimeout(function () {
         updateCurrentTime();
