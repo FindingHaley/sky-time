@@ -1,0 +1,40 @@
+{
+    "pattern": ["C", "b", "A", "a", "B", "b", "C", "a", "A", "b", "B", "a"],
+    "offDays": {
+        "sun": ["a", "b"],
+        "mon": ["C", "b"],
+        "tue": ["A", "C"],
+        "wed": ["A", "B"],
+        "thu": ["B"],
+        "fri": [],
+        "sat": ["a"]
+    },
+    "duration": 240,
+    "type": {
+        "A": {
+            "startTime": [150, 510, 870],
+            "color": "590410",
+            "desciption": "Moderate"
+        },
+        "B": {
+            "startTime": [220, 580, 940],
+            "color": "991809",
+            "desciption": "Strong"
+        },
+        "C": {
+            "startTime": [470, 830, 1190],
+            "color": "590410",
+            "desciption": "Moderate"
+        },
+        "a": {
+            "startTime": [120, 600, 1080],
+            "color": "041530",
+            "desciption": "Normal"
+        },
+        "b": {
+            "time": [140, 620, 1100],
+            "color": "041530",
+            "desciption": "Normal"
+        }
+    }
+}
