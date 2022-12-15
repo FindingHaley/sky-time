@@ -5,6 +5,10 @@ let showFullDay = true;
 let maxHours = 5;
 let pastHours = 1;
 let currentHourSlot;
+let currentDay;
+let currentDayOfThrWeek;
+
+const daysOfTheWeek = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
 
 function loadData (filename) {
     var xhr = new XMLHttpRequest();
@@ -118,7 +122,7 @@ function getPacificOffest (localTime, pacificTime) {
     let hour;
 
     // console.log(localTime.hour24, pacificTime.hour24, offset)
-    // console.log("resetOffset", resetOffset)
+    // console.log("pac", pacificTime)
 
     if (resetOffset === 0) {
         resetOffset = localTime.hour24;
@@ -147,6 +151,7 @@ function getPacificOffest (localTime, pacificTime) {
 
     return {
         offset: offset,
+        offsetMinutes: localTime.minutes - pacificTime.minutes,
         resetOffset: hour,
         period: period
     };
@@ -169,6 +174,10 @@ function onLoad() {
     // console.log(localTime, diff);
     // console.log("pac", pacificTime);
     // console.log("offset", offset);
+    
+    if (offset.offsetMinutes !== 0) {
+        document.getElementById('offsetWarning').style.display = 'block';
+    }
 
     const resetTime = document.getElementById("reset-time");
     resetTime.innerText = `${offset.resetOffset}:00 ${offset.period}`;

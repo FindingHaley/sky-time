@@ -12,12 +12,14 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Asap+Condensed:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;900&display=swap" rel="stylesheet">
 </head>
 
 <body>
     <header>
-        <h1>☁ Sky Time ☁</h1>
-        <div>Daily Reset: <span id="reset-time"></span></div>
+        <h1>Sky Time</h1>
+        <div class="reset-time">Daily Reset <span id="reset-time"></span></div>
+        <div class="warning" id="offsetWarning">WARNING Sky Time currently only supports timezones in whole hours. Times shown below may not be accurate.</div>
     </header>
     <div id="timeline"></div>
     
