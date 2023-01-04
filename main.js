@@ -1,4 +1,7 @@
+let dataToLoad = ['timedata', 'timedata-shard'];
+let dataLoadedCount = 0;
 let timeData;
+let shardData;
 let offset;
 let localTime;
 let showFullDay = true;
@@ -6,18 +9,46 @@ let maxHours = 5;
 let pastHours = 1;
 let currentHourSlot;
 let currentDay;
-let currentDayOfThrWeek;
+let currentDayOfTheMonth;
+let currentDayOfTheWeek;
+let isOffDay = false;
+let todaysShard;
+
+//6e0d3a
 
 const daysOfTheWeek = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
 
-function loadData (filename) {
+function start () {
+    loadData('timedata', function (data) {
+        timeData = JSON.parse(data);
+        checkLoaded();
+    });
+    
+    loadData('timedata-shard', function (data) {
+        shardData = JSON.parse(data);
+        checkLoaded();
+    });
+}
+
+function checkLoaded () {
+    dataLoadedCount++;
+
+    if (dataLoadedCount === 2) {
+        onLoad();
+    }
+}
+
+function loadData (filename, callback) {
     var xhr = new XMLHttpRequest();
 
     xhr.open('GET', filename + '.json', true);
 
     xhr.onload = () => {
-        timeData = JSON.parse(xhr.response);
-        onLoad();
+        if (callback) {
+            callback(xhr.response);
+        }
+        //timeData = JSON.parse(xhr.response);
+        //onLoad();
     };
 
     xhr.send();
@@ -165,7 +196,7 @@ function onLoad() {
     var pacificDate = localDate.toLocaleString("en-US", {
         timeZone: "America/Los_Angeles"
     });
-    // console.log("pacDate", pacificDate);
+    //console.log("localDate", localDate);
 
     let pacificTime = parsePacificTime(pacificDate);
 
@@ -175,6 +206,13 @@ function onLoad() {
     // console.log("pac", pacificTime);
     // console.log("offset", offset);
     
+    currentDay = localDate.getDay();
+    currentDayOfTheWeek = daysOfTheWeek[currentDay];
+    currentDayOfTheMonth = localDate.getDate();
+    
+    //console.log(currentDayOfTheWeek)
+    //console.log(currentDayOfTheMonth)
+    
     if (offset.offsetMinutes !== 0) {
         document.getElementById('offsetWarning').style.display = 'block';
     }
@@ -182,7 +220,27 @@ function onLoad() {
     const resetTime = document.getElementById("reset-time");
     resetTime.innerText = `${offset.resetOffset}:00 ${offset.period}`;
 
+    shard();
     generateHourSlots();
+}
+
+function shard () {
+    let todaysShardType = shardData.pattern[(currentDayOfTheMonth-1) % shardData.pattern.length]
+    let offDays = shardData.offDays[currentDayOfTheWeek];
+    //console.log(todaysShardType);
+    
+    if (offDays.indexOf(todaysShardType, offDays) !== -1) {
+        isOffDay = true;
+        document.getElementById('noShard').style.display = 'block';
+    }
+    
+    //console.log('isOffDay', isOffDay);
+    
+    if (!isOffDay) {
+        todaysShard = shardData.type[todaysShardType];
+    }
+    
+    //console.log(todaysShard);
 }
 
 function getLabelText (i) {
@@ -233,8 +291,9 @@ function generateHourSlots () {
 
     for (var i = pastHours * -1; i < maxHours; i++) {
         const hourSlot = document.createElement("div");
+        const hour = localTime.hour24 + i;
         hourSlot.className = "hour-slot";
-        hourSlot.id = `hour${localTime.hour24 + i}`;
+        hourSlot.id = `hour${hour}`;
         hourSlot.style.zIndex = Math.abs(100 - i);
         
         if (i < 0) {
@@ -246,7 +305,7 @@ function generateHourSlots () {
         
         hourLabel.innerText = getLabelText(i);
 
-        let time = to12Hours(localTime.hour24 + i);
+        let time = to12Hours(hour);
 
         // console.log(time.hour, time.period);
 
@@ -279,7 +338,7 @@ function generateHourSlots () {
 
             for (var i2 = 0; i2 < 12; i2++) {
                 // console.log(nearestHour + ((timeData[event].frequency / 60) * i2), localTime.hour24 + i);
-                if (nearestHour + ((timeData[event].frequency / 60) * i2) === localTime.hour24 + i) {
+                if (nearestHour + ((timeData[event].frequency / 60) * i2) === hour) {
                     // console.log(i2, nearestHour, (timeData[event].frequency / 60));
                     // console.log('match');
 
@@ -296,7 +355,30 @@ function generateHourSlots () {
             }
         }
         // return `${time.hour}:00 ${time.period}`;
-        
+        if (!isOffDay) {
+            for (var i2 = 0; i2 < todaysShard.startTime.length; i2++) {
+                let startTime = todaysShard.startTime[i2];
+                
+                let nearestHour = (startTime ? Math.floor(startTime / 60) : 0) + offset.resetOffset;
+                //console.log(nearestHour)
+                
+                if (nearestHour === hour) {
+                    eventCount++;
+                    //console.log(startTime)
+                    //console.log(startTime - (hour * 60) + (offset.resetOffset * 60));
+                    //console.log(getVerticalOffset({minutesAfterReset: startTime - (hour * 60) + (offset.resetOffset * 60)}));
+                    const eventBlock = document.createElement("div");
+                    eventBlock.className = "event";
+                    eventBlock.style.backgroundColor = `#${todaysShard.color}`;
+                    eventBlock.style.top = `${getVerticalOffset({minutesAfterReset: startTime - (hour * 60) + (offset.resetOffset * 60)})}%`;
+                    eventBlock.style.left = `${(eventCount / 5) * 100}%`;
+                    eventBlock.style.height = `${getEventDuration(shardData)}%`;
+                    eventBlock.innerHTML = `Shard<div class="description">${todaysShard.description}</div>`;
+                    hourSlot.appendChild(eventBlock);
+                    
+                }
+            }
+        }
 
         
         timeline.appendChild(hourSlot);
@@ -315,4 +397,4 @@ function generateHourSlots () {
     
 }
 
-loadData('timedata');
+start();
