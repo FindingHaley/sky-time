@@ -62,7 +62,8 @@ h1 {
 }
 
 #offsetWarning,
-#noShard {
+#noShard,
+#shard {
     display: none;
 }
 
@@ -185,6 +186,20 @@ h1 {
     font-size: 12px;
     font-style: oblique;
     line-height: 1em;
+    opacity: 0.75;
+}
+
+.event .realm {
+    margin-top: 20px;
+    font-size: 13px;
+    line-height: 1em;
+}
+
+.event .area {
+    margin-top: 5px;
+    font-size: 12px;
+    line-height: 1em;
+    opacity: 0.75;
 }
 
 .event:last-of-type {
@@ -213,7 +228,7 @@ h1 {
     .event,
     .event:last-of-type {
         width: calc(20% - 15px);
-        margin-left: -5%;
+        margin-left: 0%;
     }
 
     .event:first-of-type {

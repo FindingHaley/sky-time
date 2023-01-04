@@ -1,5 +1,131 @@
 {
     "pattern": ["C", "b", "A", "a", "B", "b", "C", "a", "A", "b", "B", "a"],
+    "location": [
+        {
+            "realm": "Daylight Prairie",
+            "area": "Caves"
+        },
+        {
+            "realm": "Hidden Forest",
+            "area": "Boneyard"
+        },
+        {
+            "realm": "Valley of Triumph",
+            "area": "Village of Dreams"
+        },
+        {
+            "realm": "Golden Wasteland",
+            "area": "Broken Temple"
+        },
+        {
+            "realm": "Vault of Knowledge",
+            "area": "Jellyfish Cove"
+        },
+        {
+            "realm": "Daylight Prairie",
+            "area": "Villages"
+        },
+        {
+            "realm": "Hidden Forest",
+            "area": "Forest End"
+        },
+        {
+            "realm": "Valley of Triumph",
+            "area": "Ice Rink"
+        },
+        {
+            "realm": "Golden Wasteland",
+            "area": "Crab Fields"
+        },
+        {
+            "realm": "Vault of Knowledge",
+            "area": "Starlight Desert"
+        },
+        {
+            "realm": "Daylight Prairie",
+            "area": "Sanctuary Islands"
+        },
+        {
+            "realm": "Hidden Forest",
+            "area": "Forest Brook"
+        },
+        {
+            "realm": "Valley of Triumph",
+            "area": "Village of Dreams"
+        },
+        {
+            "realm": "Golden Wasteland",
+            "area": "Battlefield"
+        },
+        {
+            "realm": "Vault of Knowledge",
+            "area": "Jellyfish Cove"
+        },
+        {
+            "realm": "Daylight Prairie",
+            "area": "Butterfly Fields"
+        },
+        {
+            "realm": "Hidden Forest",
+            "area": "Elevated Clearing"
+        },
+        {
+            "realm": "Valley of Triumph",
+            "area": "Ice Rink"
+        },
+        {
+            "realm": "Golden Wasteland",
+            "area": "Graveyard"
+        },
+        {
+            "realm": "Vault of Knowledge",
+            "area": "Starlight Desert"
+        },
+        {
+            "realm": "Daylight Prairie",
+            "area": "Bird's Nest"
+        },
+        {
+            "realm": "Hidden Forest",
+            "area": "Boneyard"
+        },
+        {
+            "realm": "Valley of Triumph",
+            "area": "Hermit Valley"
+        },
+        {
+            "realm": "Golden Wasteland",
+            "area": "Broken Temple"
+        },
+        {
+            "realm": "Vault of Knowledge",
+            "area": "Jellyfish Cove"
+        },
+        {
+            "realm": "Daylight Prairie",
+            "area": "Villages"
+        },
+        {
+            "realm": "Hidden Forest",
+            "area": "Treehouse"
+        },
+        {
+            "realm": "Valley of Triumph",
+            "area": "Ice Rink"
+        },
+        {
+            "realm": "Golden Wasteland",
+            "area": "Forgotten Ark"
+        },
+        {
+            "realm": "Vault of Knowledge",
+            "area": "Starlight Desert"
+        },
+        {
+            "realm": "Daylight Prairie",
+            "area": "Caves"
+        }
+    ],
     "offDays": {
         "sun": ["a", "b"],
         "mon": ["C", "b"],
@@ -29,12 +155,12 @@
         "a": {
             "startTime": [120, 600, 1080],
             "color": "041530",
-            "description": "Black – Normal"
+            "description": "Black"
         },
         "b": {
             "startTime": [140, 620, 1100],
             "color": "041530",
-            "description": "Black – Normal"
+            "description": "Black"
         }
     }
 }

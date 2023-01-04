@@ -227,6 +227,7 @@ function onLoad() {
 function shard () {
     let todaysShardType = shardData.pattern[(currentDayOfTheMonth-1) % shardData.pattern.length]
     let offDays = shardData.offDays[currentDayOfTheWeek];
+    const shardNote = document.getElementById('shard');
     //console.log(todaysShardType);
     
     if (offDays.indexOf(todaysShardType, offDays) !== -1) {
@@ -238,6 +239,9 @@ function shard () {
     
     if (!isOffDay) {
         todaysShard = shardData.type[todaysShardType];
+        
+        shardNote.innerHTML = `Shard is in <strong>${shardData.location[currentDayOfTheMonth-1].realm}</strong> at <strong>${shardData.location[currentDayOfTheMonth-1].area}</strong>`;
+        shardNote.style.display = 'block';
     }
     
     //console.log(todaysShard);
@@ -373,7 +377,7 @@ function generateHourSlots () {
                     eventBlock.style.top = `${getVerticalOffset({minutesAfterReset: startTime - (hour * 60) + (offset.resetOffset * 60)})}%`;
                     eventBlock.style.left = `${(eventCount / 5) * 100}%`;
                     eventBlock.style.height = `${getEventDuration(shardData)}%`;
-                    eventBlock.innerHTML = `Shard<div class="description">${todaysShard.description}</div>`;
+                    eventBlock.innerHTML = `Shard<div class="description">${todaysShard.description}</div><div class="realm">${shardData.location[currentDayOfTheMonth-1].realm}</div><div class="area">${shardData.location[currentDayOfTheMonth-1].area}</div>`;
                     hourSlot.appendChild(eventBlock);
                     
                 }
