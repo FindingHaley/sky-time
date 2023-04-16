@@ -9,10 +9,12 @@ let maxHours = 5;
 let pastHours = 1;
 let currentHourSlot;
 let currentDay;
+let localDay;
 let currentDayOfTheMonth;
 let currentDayOfTheWeek;
 let isOffDay = false;
 let todaysShard;
+let forceDayOffset = 0;
 
 //6e0d3a
 
@@ -27,6 +29,21 @@ function start () {
     loadData('timedata-shard', function (data) {
         shardData = JSON.parse(data);
         checkLoaded();
+    });
+    
+    initAbout();
+}
+
+function initAbout () {
+    const about = document.getElementById('about');
+    const modal = document.getElementById('modalAbout');
+    
+    about.addEventListener('click', (event) => {
+        modal.style.opacity = 1;
+    });
+    
+    modal.addEventListener('click', (event) => {
+        modal.style.opacity = 0;
     });
 }
 
@@ -117,18 +134,28 @@ function parseTime (time) {
         hour = hour24;
     }
 
+    //console.log(time.getDate())
+    
     return {
         hour: hour,
         hour24: hour24,
         minutes: minutes,
-        period: period
+        period: period,
+        date: `${time.getMonth()+1}/${time.getDate()}/${time.getFullYear()}`,
+        day: time.getDate(),
+        month: time.getMonth()+1,
+        year: time.getFullYear()
     };
 }
 
 
 function parsePacificTime (date) {
     date = date.split(" ");
-    let time = date[1].split(":");;
+    const fullDate = date[0].slice(0, -1);
+    const day = fullDate.split('/')[0];
+    const month = fullDate.split('/')[1];
+    const year = fullDate.split('/')[2];
+    let time = date[1].split(":");
     let hour = Number(time[0]);
     let minutes = Number(time[1]);
     let period = date[2];
@@ -140,13 +167,36 @@ function parsePacificTime (date) {
         hour: hour,
         hour24: hour24,
         minutes: minutes,
-        period: period
+        period: period,
+        date: fullDate,
+        day: day,
+        month: month,
+        year: year
     };
 }
 
 function getPacificOffest (localTime, pacificTime) {
-    const offset = localTime.hour24 - pacificTime.hour24;
-
+    let offset = localTime.hour24 - pacificTime.hour24;
+    let localIsTomorrow = false;
+    
+    console.log(localTime.date, pacificTime.date)
+    console.log(localTime.day, pacificTime.day)
+    
+    // if local same month and one day ahead
+    if (localTime.day > pacificTime.day && localTime.month == pacificTime.month) {
+        localIsTomorrow = true;
+    }
+    
+    // if local gone to the next month
+    if (localTime.day == 1 && localTime.month > pacificTime.month) {
+        localIsTomorrow = true;
+    }
+    
+    if (localIsTomorrow) {
+        offset += 24
+        console.log('next day')
+    }
+    
     // const resetOffset = localTime.hour24 - offset;
     let resetOffset = offset;
     // let resetOffset = 0;
@@ -172,7 +222,7 @@ function getPacificOffest (localTime, pacificTime) {
             hour = hour * -1;
         }
 
-        // console.log(hour)
+        //console.log(hour)
         // console.log("previous day");
     } else {
         hour = resetOffset;
@@ -180,6 +230,8 @@ function getPacificOffest (localTime, pacificTime) {
 
     let period = getPeriod(resetOffset);
 
+    console.log('offset', offset)
+    
     return {
         offset: offset,
         offsetMinutes: localTime.minutes - pacificTime.minutes,
@@ -206,12 +258,13 @@ function onLoad() {
     // console.log("pac", pacificTime);
     // console.log("offset", offset);
     
-    currentDay = localDate.getDay();
+    currentDay = localDate.getDay()+forceDayOffset;
     currentDayOfTheWeek = daysOfTheWeek[currentDay];
-    currentDayOfTheMonth = localDate.getDate();
+    currentDayOfTheMonth = localDate.getDate()+forceDayOffset;
     
-    //console.log(currentDayOfTheWeek)
-    //console.log(currentDayOfTheMonth)
+    if (forceDayOffset != 0) {
+        console.log(currentDayOfTheWeek, currentDayOfTheMonth)
+    }
     
     if (offset.offsetMinutes !== 0) {
         document.getElementById('offsetWarning').style.display = 'block';
@@ -347,12 +400,13 @@ function generateHourSlots () {
                     // console.log('match');
 
                     const eventBlock = document.createElement("div");
+                    let icon = timeData[event].icon ? `<img src="images/${timeData[event].icon}" class="event-icon" alt="">` : '';
                     eventBlock.className = "event";
                     eventBlock.style.backgroundColor = `#${timeData[event].color}`;
                     eventBlock.style.top = `${getVerticalOffset(timeData[event])}%`;
-                    eventBlock.style.left = `${(eventCount / 5) * 100}%`;
+                    //eventBlock.style.left = `${(eventCount / 5) * 100}%`;
                     eventBlock.style.height = `${getEventDuration(timeData[event])}%`;
-                    eventBlock.innerText = event;
+                    eventBlock.innerHTML = `${icon}${event}`;
                     hourSlot.appendChild(eventBlock);
                     
                 }

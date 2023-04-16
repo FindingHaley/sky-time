@@ -3,18 +3,21 @@
         "minutesAfterReset": 5,
         "duration": 10,
         "frequency": 120,
-        "color": "3d5785"
+        "color": "3d5785",
+        "icon": "urchin.svg"
     },
     "Grandma": {
         "minutesAfterReset": 35,
         "duration": 10,
         "frequency": 120,
-        "color": "53437c"
+        "color": "53437c",
+        "icon": "belonging.svg"
     },
     "Turtle": {
         "minutesAfterReset": 50,
         "duration": 10,
         "frequency": 120,
-        "color": "347856"
+        "color": "347856",
+        "icon": "urchin.svg"
     }
 }

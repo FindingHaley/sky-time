@@ -20,12 +20,25 @@
         <div class="header-inner">
             <h1>Sky Time</h1>
             <div class="reset-time">Daily Reset <span id="reset-time"></span></div>
+            <button class="btn-about" id="about">About</button>
         </div>
         <div class="note" id="shard"></div>
         <div class="note" id="noShard">There will be no shard today</div>
         <div class="warning" id="offsetWarning">WARNING Sky Time currently only supports timezones in whole hours. Times shown below may not be accurate.</div>
     </header>
     <div id="timeline"></div>
+    
+    <div class="modal" id="modalAbout">
+        <div class="modal-body">
+            <h1>About Sky Time</h1>
+            This site is a work in progress, and is a labor of love built by me, Haley (AKA Kayda).<br><br>
+            <strong>Known bugs:</strong>
+            <ul>
+                <li>Time zones which are off from PST by half hour increments are not accounted for yet.
+                <li>If it is after midnight at your location but not yet after midnight PST, strange behavior occurs.
+            </ul>
+        </div>
+    </div>
     
     <script src="main.js"></script>
 
