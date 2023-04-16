@@ -76,6 +76,7 @@ h1 {
 }
 
 .hour-slot {
+    display: flex;
     position: relative;
     border: 1px solid #333;
     background-color: #111;
@@ -166,20 +167,35 @@ h1 {
     border-radius: 50%;
 }
 
+.hour-col {
+    position: relative;
+    /* flex: 0 1 auto; */
+    flex: 1;
+    padding: 0 5px;
+    box-sizing: border-box;
+}
+
+.hour-label {
+    width: 50px;
+    padding-right: 20px;
+}
+
 .event {
     position: absolute;
     top: 0;
-    left: 20%;
+    /* left: 20%; */
     color: #fff;
     background-color: rgb(33, 109, 128);
     box-shadow: inset 0px 0px 0px 1px rgba(255,255,255,0.1);
     border-radius: 3px;
     padding: 0 5px;
     /* width: calc(20% - 15px); */
+    width: calc(100% - 10px);
     
     min-height: 5px;
     font-size: 16px;
     /* min-width: 90px; */
+    box-sizing: border-box;
     z-index: 5;
 }
 
@@ -203,9 +219,9 @@ h1 {
     opacity: 0.75;
 }
 
-.event:last-of-type {
+/* .event:last-of-type {
     margin-left: 5px;
-}
+} */
 
 .event + .event {
     z-index: 4;

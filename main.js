@@ -14,7 +14,7 @@ let currentDayOfTheMonth;
 let currentDayOfTheWeek;
 let isOffDay = false;
 let todaysShard;
-let forceDayOffset = 0;
+let forceDayOffset = 1;
 
 //6e0d3a
 
@@ -366,6 +366,15 @@ function generateHourSlots () {
 
         // console.log(time.hour, time.period);
 
+
+        const col1 = document.createElement("div");
+        const col2 = document.createElement("div");
+        const col3 = document.createElement("div");
+        col1.className = "hour-col";
+        col2.className = "hour-col";
+        col3.className = "hour-col";
+
+
         hourSlot.appendChild(hourLabel);
 
         function getVerticalOffset (event) {
@@ -407,7 +416,8 @@ function generateHourSlots () {
                     //eventBlock.style.left = `${(eventCount / 5) * 100}%`;
                     eventBlock.style.height = `${getEventDuration(timeData[event])}%`;
                     eventBlock.innerHTML = `${icon}${event}`;
-                    hourSlot.appendChild(eventBlock);
+                    // hourSlot.appendChild(eventBlock);
+                    col1.appendChild(eventBlock);
                     
                 }
             }
@@ -429,16 +439,19 @@ function generateHourSlots () {
                     eventBlock.className = "event";
                     eventBlock.style.backgroundColor = `#${todaysShard.color}`;
                     eventBlock.style.top = `${getVerticalOffset({minutesAfterReset: startTime - (hour * 60) + (offset.resetOffset * 60)})}%`;
-                    eventBlock.style.left = `${(eventCount / 5) * 100}%`;
+                    // eventBlock.style.left = `${(eventCount / 5) * 100}%`;
                     eventBlock.style.height = `${getEventDuration(shardData)}%`;
                     eventBlock.innerHTML = `Shard<div class="description">${todaysShard.description}</div><div class="realm">${shardData.location[currentDayOfTheMonth-1].realm}</div><div class="area">${shardData.location[currentDayOfTheMonth-1].area}</div>`;
-                    hourSlot.appendChild(eventBlock);
+                    // hourSlot.appendChild(eventBlock);
+                    col2.appendChild(eventBlock);
                     
                 }
             }
         }
 
-        
+        hourSlot.appendChild(col1);
+        hourSlot.appendChild(col2);
+        hourSlot.appendChild(col3);
         timeline.appendChild(hourSlot);
         timeline.appendChild(currentTime);
 
