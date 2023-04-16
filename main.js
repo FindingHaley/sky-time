@@ -14,7 +14,7 @@ let currentDayOfTheMonth;
 let currentDayOfTheWeek;
 let isOffDay = false;
 let todaysShard;
-let forceDayOffset = 1;
+let forceDayOffset = 0;
 
 //6e0d3a
 
@@ -37,13 +37,16 @@ function start () {
 function initAbout () {
     const about = document.getElementById('about');
     const modal = document.getElementById('modalAbout');
+    const modalClose = document.getElementById('modalClose');
     
     about.addEventListener('click', (event) => {
         modal.style.opacity = 1;
+        modal.classList.add('modal-show');
     });
     
-    modal.addEventListener('click', (event) => {
+    modalClose.addEventListener('click', (event) => {
         modal.style.opacity = 0;
+        modal.classList.remove('modal-show');
     });
 }
 
@@ -295,6 +298,10 @@ function shard () {
         
         shardNote.innerHTML = `Shard is in <strong>${shardData.location[currentDayOfTheMonth-1].realm}</strong> at <strong>${shardData.location[currentDayOfTheMonth-1].area}</strong>`;
         shardNote.style.display = 'block';
+
+        if (todaysShard.description === 'Black') {
+            shardNote.classList.add('shard-black');
+        }
     }
     
     //console.log(todaysShard);
