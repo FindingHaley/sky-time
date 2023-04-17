@@ -93,7 +93,7 @@ h1 {
 #timeline {
     display: block;
     position: relative;
-    margin-top: 75px;
+    margin-top: 120px;
     z-index: 1;
     /* background-color: #111; */
 }
@@ -334,12 +334,13 @@ h1 {
 }
 
 @media only screen and (max-width: 450px) {
-    html, body {
-        padding: 10px;
-    }
+    /* body {
+        padding-left: 10px;
+        padding-right: 10px;
+    } */
 
     .hour-label {
-        width: 40px;
+        width: 45px;
         padding-right: 5px;
     }
 

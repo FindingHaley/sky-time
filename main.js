@@ -155,9 +155,9 @@ function parseTime (time) {
 function parsePacificTime (date) {
     date = date.split(" ");
     const fullDate = date[0].slice(0, -1);
-    const day = fullDate.split('/')[0];
-    const month = fullDate.split('/')[1];
-    const year = fullDate.split('/')[2];
+    const month = Number(fullDate.split('/')[0]);
+    const day = Number(fullDate.split('/')[1]);
+    const year = Number(fullDate.split('/')[2]);
     let time = date[1].split(":");
     let hour = Number(time[0]);
     let minutes = Number(time[1]);
@@ -182,8 +182,8 @@ function getPacificOffest (localTime, pacificTime) {
     let offset = localTime.hour24 - pacificTime.hour24;
     let localIsTomorrow = false;
     
-    console.log(localTime.date, pacificTime.date)
-    console.log(localTime.day, pacificTime.day)
+    // console.log(localTime.date, pacificTime.date)
+    // console.log(localTime.day, pacificTime.day)
     
     // if local same month and one day ahead
     if (localTime.day > pacificTime.day && localTime.month == pacificTime.month) {
@@ -248,22 +248,33 @@ function onLoad() {
     localTime = parseTime(localDate);
     let diff = localDate.getTimezoneOffset();
 
-    var pacificDate = localDate.toLocaleString("en-US", {
+    var pacific = localDate.toLocaleString("en-US", {
         timeZone: "America/Los_Angeles"
     });
+    
+    var pacificDate = new Date(pacific);
     //console.log("localDate", localDate);
 
-    let pacificTime = parsePacificTime(pacificDate);
+    let pacificTime = parsePacificTime(pacific);
 
     offset = getPacificOffest(localTime, pacificTime);
 
     // console.log(localTime, diff);
     // console.log("pac", pacificTime);
+    // console.log("pacDate", pacificDate);
     // console.log("offset", offset);
     
-    currentDay = localDate.getDay()+forceDayOffset;
+    // currentDay = localDate.getDay()+forceDayOffset;
+    // currentDay = pacificDate.getDay()+ (forceDayOffset % daysOfTheWeek.length);
+    currentDay = pacificDate.getDay() + (forceDayOffset >= 0 ? forceDayOffset % daysOfTheWeek.length : daysOfTheWeek.length + (forceDayOffset % daysOfTheWeek.length));
+    // currentDayOfTheWeek = daysOfTheWeek[currentDay % daysOfTheWeek.length];
     currentDayOfTheWeek = daysOfTheWeek[currentDay];
-    currentDayOfTheMonth = localDate.getDate()+forceDayOffset;
+    // currentDayOfTheMonth = localDate.getDate()+forceDayOffset;
+    currentDayOfTheMonth = pacificDate.getDate()+forceDayOffset;
+
+    // console.log('currentDay', currentDay);
+    // console.log('currentDayOfTheWeek', currentDayOfTheWeek);
+    // console.log('currentDayOfTheMonth', currentDayOfTheMonth);
     
     if (forceDayOffset != 0) {
         console.log(currentDayOfTheWeek, currentDayOfTheMonth)
@@ -323,8 +334,16 @@ function updateCurrentTime () {
     // let percentOfHour = 1 / 60;
     let hourPos = oneHourPercent + (oneHourPercent * percentOfHour);
 
+    //if after midnight, adjust timing for display
+    if (currentDate.getDate() != currentDayOfTheMonth && localTime.hour24 < offset.resetOffset) {
+        localTime.hour24 += 24;
+    }
+
     if (showFullDay) {
         hourPos = (oneHourPercent * (localTime.hour24 - offset.resetOffset)) + (oneHourPercent * percentOfHour);
+
+        // console.log(localTime.hour24, offset.resetOffset);
+        // console.log(currentDayOfTheMonth, currentDate.getDate());
     }
     
     currentTime.style.top = hourPos + "%";
@@ -465,9 +484,9 @@ function generateHourSlots () {
         // console.log(i);
     }
     
-    document.getElementById(`hour${localTime.hour24}`).scrollIntoView({
-        block: 'center'
-    });
+    // document.getElementById(`hour${localTime.hour24}`).scrollIntoView({
+    //     block: 'center'
+    // });
 
     setTimeout(function () {
         updateCurrentTime();
